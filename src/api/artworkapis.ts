@@ -1,16 +1,19 @@
 import { ArtworksApiResponse } from "../models/artwork";
 
+export const fetchArtworks = async (
+  page: number,
+  limit: number
+): Promise<ArtworksApiResponse> => {
+  const res = await fetch(
+    `https://api.artic.edu/api/v1/artworks?page=${page}&limit=${limit}`
+  );
 
-export const fetchArtworks = async (page: number = 1, limit: number = 10): Promise<ArtworksApiResponse> => {
-  const response = await fetch(`https://api.artic.edu/api/v1/artworks?page=${page}&limit=${limit}`);
-  if (!response.ok) throw new Error("Failed to fetch artworks");
-  const data = await response.json();
+  if (!res.ok) throw new Error("API Error");
+
+  const json = await res.json();
+
   return {
-    data: data.data,
-    pagination: {
-      total: data.pagination.total,
-      limit: data.pagination.limit,
-      current_page: data.pagination.current_page,
-    },
+    data: json.data,
+    pagination: json.pagination,
   };
 };
