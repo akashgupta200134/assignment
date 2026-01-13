@@ -43,7 +43,7 @@ export default function App() {
   };
 
   return (
-    <div className="p-4   ">
+    <div className="p-4">
       <div  id="button"
       className="flex gap-2 mb-3  ">
         <Button className=""
