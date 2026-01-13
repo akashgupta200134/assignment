@@ -1,23 +1,71 @@
-import React from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
+import { useRef, useState } from "react";
+import { Button } from "primereact/button";
+import { OverlayPanel } from "primereact/overlaypanel";
+import { useArtworks } from "./hooks/useArtworks";
+import { ArtworkTable } from "./components/Artworktable";
+import { SelectionOverlay } from "./components/selectionoverlay";
 
-const App: React.FC = () => {
-  const testData = [
-    { id: 1, title: 'Mona Lisa', artist: 'Leonardo da Vinci' },
-    { id: 2, title: 'Starry Night', artist: 'Vincent van Gogh' },
-  ];
+const ROWS = 10;
+
+export default function App() {
+  const { artworks, total, page, setPage, loading } = useArtworks(ROWS);
+
+
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+
+
+  const overlayRef = useRef<OverlayPanel>(null!);
+
+  const artworksWithSelection = artworks.map(a => ({
+    ...a,
+    selected: selectedIds.has(a.id),
+  }));
+
+  // check if a row is selected
+  const isSelected = (id: number) => selectedIds.has(id);
+
+  
+  const toggleRow = (id: number, checked: boolean) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      checked ? next.add(id) : next.delete(id);
+      return next;
+    });
+  };
+
+  
+  const applyCustomSelection = (count: number) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      artworks.slice(0, count).forEach(a => next.add(a.id));
+      return next;
+    });
+  };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>PrimeReact Test Table</h2>
-      <DataTable value={testData} dataKey="id">
-        <Column field="id" header="ID" />
-        <Column field="title" header="Title" />
-        <Column field="artist" header="Artist" />
-      </DataTable>
+    <div className="p-4">
+      <div className="flex gap-2 mb-3">
+        <Button
+          label="Custom Select"
+          onClick={(e) => overlayRef.current.toggle(e)}
+        />
+      </div>
+
+      <ArtworkTable
+        artworks={artworksWithSelection}
+        page={page}
+        rows={ROWS}
+        total={total}
+        loading={loading}
+        onPageChange={setPage}
+        isSelected={isSelected}
+        onToggle={toggleRow}
+      />
+
+      <SelectionOverlay
+        overlayRef={overlayRef}
+        onConfirm={applyCustomSelection}
+      />
     </div>
   );
-};
-
-export default App;
+}

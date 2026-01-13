@@ -1,4 +1,5 @@
-import { ArtworksApiResponse } from "../models/artwork";
+import type { ArtworksApiResponse } from "../models/artwork";
+
 
 export const fetchArtworks = async (
   page: number,

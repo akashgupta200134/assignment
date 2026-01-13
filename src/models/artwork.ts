@@ -1,4 +1,3 @@
-
 export interface Artwork {
   id: number;
   title: string;
@@ -8,7 +7,6 @@ export interface Artwork {
   date_start: number | null;
   date_end: number | null;
 }
-
 
 export interface ArtworksApiResponse {
   data: Artwork[];
