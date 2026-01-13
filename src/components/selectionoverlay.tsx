@@ -53,7 +53,6 @@ export const SelectionOverlay = ({ overlayRef, onConfirm }: Props) => {
             font-medium 
             text-white 
             transition 
-   
           "
         />
       </div>
