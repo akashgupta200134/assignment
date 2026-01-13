@@ -23,8 +23,8 @@ export const SelectionOverlay = ({ overlayRef, onConfirm }: Props) => {
 
   return (
     <OverlayPanel ref={overlayRef} dismissable>
-      <div className="flex flex-col gap-2 p-3">
-        <InputNumber
+      <div className="flex flex-col gap-4  p-2">
+        <InputNumber className=""
           value={count}
           onValueChange={(e) => setCount(e.value ?? null)}
           placeholder="Enter number of rows"

@@ -43,7 +43,7 @@ export const ArtworkTable = ({
         body={(row) => (
           <input
             type="checkbox"
-            checked={row.selected ?? false} // <- immediate UI update
+            checked={row.selected ?? false} 
             onChange={(e) => onToggle(row.id, e.target.checked)}
           />
         )}

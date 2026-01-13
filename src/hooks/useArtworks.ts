@@ -8,6 +8,8 @@ export const useArtworks = (rowsPerPage: number) => {
   const [loading, setLoading] = useState(false);
 
   const fetchArtworks = async (pageNumber: number) => {
+          
+
     setLoading(true);
     try {
       const response = await fetch(
